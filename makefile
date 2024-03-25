@@ -6,17 +6,17 @@ SRCDIR = src
 
 all: $(BINDIR)/soru1 $(BINDIR)/soru2
 
-$(BINDIR)/soru1: $(SRCDIR)/soru1.o
+$(BINDIR)/soru1: $(SRCDIR)/soru1.o | $(BINDIR)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-$(BINDIR)/soru2: $(SRCDIR)/soru2.o
+$(BINDIR)/soru2: $(SRCDIR)/soru2.o | $(BINDIR)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-$(SRCDIR)/soru1.o: $(SRCDIR)/soru1.c
+$(BINDIR)/%.o: $(SRCDIR)/%.c | $(BINDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(SRCDIR)/soru2.o: $(SRCDIR)/soru2.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(BINDIR):
+	mkdir $(BINDIR)
 
 clean:
 	rm -f $(SRCDIR)/*.o $(BINDIR)/soru1 $(BINDIR)/soru2
